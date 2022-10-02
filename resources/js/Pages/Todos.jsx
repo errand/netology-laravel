@@ -42,6 +42,14 @@ export default function Todos(props) {
 
     const handleSubmit = evt => {
         evt.preventDefault();
+        setSending(true);
+
+        Inertia.post(route('todos.store'), values, {
+            onFinish: () => {
+                setSending(false);
+                evt.target.reset();
+            }
+        });
     }
 
     return (

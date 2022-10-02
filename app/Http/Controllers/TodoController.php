@@ -24,24 +24,22 @@ class TodoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreTodoRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function store(StoreTodoRequest $request)
     {
-        //
+
+        $todo = new Todo($request->validated());
+        $todo->save();
+
+        $todos = Todo::all();
+
+        return Inertia::render('Todos', [
+            'todos' => $todos,
+        ]);
     }
 
     /**
