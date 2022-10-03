@@ -29,11 +29,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/userInfo', function () {
+    return Inertia::render('User/UserInfo');
+})->middleware(['auth', 'verified'])->name('userInfo');
+
 Route::get('todos')->name('todos')->uses('\App\Http\Controllers\TodoController@index')->middleware('verified', 'auth');
-
-//Route::post('todos/create',[\App\Http\Controllers\TodoController::class,'create'])->name('todos.create')->middleware('auth');
 Route::post('todos')->name('todos.store')->uses([\App\Http\Controllers\TodoController::class,'store'])->middleware('auth');
-
 Route::get('todos/{id}',[\App\Http\Controllers\TodoController::class,'show'])->name('todos.show')->middleware('auth');
 Route::delete('todos/{id}',[\App\Http\Controllers\TodoController::class,'destroy'])->name('todos.destroy')->middleware('auth');
 

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Link, Head } from '@inertiajs/inertia-react';
+import { Link, Head, usePage } from '@inertiajs/inertia-react';
+import Pagination from '@/Components/Pagination';
 
 export default function Todos(props) {
+    const { todos } = usePage().props;
     const [sending, setSending] = useState(false);
     const [todoId, setTodoId] = useState(null);
     const [values, setValues] = useState({
@@ -56,11 +58,10 @@ export default function Todos(props) {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            todos = {props.todos}
+            todos = {todos}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Todos</h2>}
         >
             <Head title="Todos" />
-
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -102,7 +103,7 @@ export default function Todos(props) {
                                 <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">Actions</th>
                             </tr>
                         {
-                            props.todos.map(item =>
+                            todos.data.map(item =>
                                 <tr key={item.id}>
                                     <td className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">{item.title}</td>
                                     <td className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">{item.description}</td>
@@ -114,6 +115,7 @@ export default function Todos(props) {
                             )
                         }
                         </table>
+                        <Pagination class="mt-6" links={todos.links} />
                     </div>
                 </div>
             </div>

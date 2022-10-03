@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use App\Models\Todo;
 
@@ -16,7 +17,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todos = Todo::all();
+        $todos = DB::table('todos')->paginate(10);
 
         return Inertia::render('Todos', [
             'todos' => $todos,
@@ -35,7 +36,7 @@ class TodoController extends Controller
         $todo = new Todo($request->validated());
         $todo->save();
 
-        $todos = Todo::all();
+        $todos = DB::table('todos')->paginate(10);
 
         return Inertia::render('Todos', [
             'todos' => $todos,
